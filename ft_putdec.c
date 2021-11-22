@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putuns.c                                           :+:      :+:    :+:   */
+/*   ft_putdec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jleslee <jleslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/18 18:22:55 by jleslee           #+#    #+#             */
-/*   Updated: 2021/11/21 17:35:40 by jleslee          ###   ########.fr       */
+/*   Created: 2021/11/18 15:00:50 by jleslee           #+#    #+#             */
+/*   Updated: 2021/11/22 16:04:12 by jleslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putuns(unsigned int n)
+int	ft_putdec(int n, int *res)
 {
-	int	i;
-	int	last;
-
-	i = 0;
-	if (n < 0)
+	if (n == -2147483648)
+		ft_putstr("-2147483648", res);
+	else if (n < 0)
 	{
-		i += ft_putuns(-n);
+		ft_putchar('-', res);
+		ft_putdec(-n, res);
 	}
-	if (n > 9)
+	else if (n > 9)
 	{
-		i += ft_putuns(n / 10);
-		ft_putuns(n % 10);
+		ft_putdec(n / 10, res);
+		ft_putdec (n % 10, res);
 	}
 	else
-	{
-		last = n % 10 + '0';
-		i += write(1, &last, 1);
-	}
-	return (i);
+		ft_putchar(n + 48, res);
+	return (*res);
 }

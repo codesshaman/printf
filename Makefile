@@ -1,31 +1,35 @@
-NAME	=	libftprintf.a
+SRCS	= $(shell find . -name "*.c")
 
-SRCS	=	ft_printf.c putchar.c putstr.c puthex.c putdec.c putuns.c putpnt.c
+OBJS	= ${SRCS:.c=.o}
 
-HEADER	=	ft_printf.h
+HDRS	= ft_printf.h
 
-OBJS	=	${SRCS:%.c=%.o}
+NAME	= libftprintf.a
 
-CC		=	gcc
+CC		= gcc
 
-RM		=	rm -f
+RM		= rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror -I${HEADER}
+CFLAGS	= -Wall -Wextra -Werror -I${HDRS}
 
-.PHONY:		all clean fclean re
-
-.c.o:		${HEADER}
+.c.o:
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
+${NAME}:	${OBJS}
+			ar rc	${NAME}	${OBJS}
+			ranlib ${NAME}
+
+
+${OBJS}:
 
 all:		${NAME}
 
-${NAME}:	${OBJS} ${HEADER}
-	ar rcs ${NAME} $?
-
-clean:		
+clean:
 			${RM} ${OBJS}
 
 fclean:		clean
-			${RM} ${NAME}
+				${RM} ${NAME}
 
 re:			fclean all
+
+.PHONY:		all clean fclean re

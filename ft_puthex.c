@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putstr.c                                           :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jleslee <jleslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 16:09:24 by jleslee           #+#    #+#             */
-/*   Updated: 2021/11/21 17:35:31 by jleslee          ###   ########.fr       */
+/*   Created: 2021/11/16 16:43:07 by jleslee           #+#    #+#             */
+/*   Updated: 2021/11/22 16:05:20 by jleslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putstr(char *str)
+int	ft_puthex(unsigned long long int n, int *res)
 {
-	int		i;
-
-	i = 0;
-	if (str == NULL)
-		return (write (1, "(null)", 6));
-	while (str[i])
+	if (n >= 16)
 	{
-		ft_putchar(str[i]);
-		i++;
+		ft_puthex(n / 16, res);
+		ft_puthex(n % 16, res);
 	}
-	return (i);
+	else if (n > 9 && n < 16)
+		ft_putchar(n % 10 + 97, res);
+	else
+		ft_putchar(n % 10 + 48, res);
+	return (*res);
 }

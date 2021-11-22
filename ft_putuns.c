@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putpnt.c                                           :+:      :+:    :+:   */
+/*   ft_putuns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jleslee <jleslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/18 15:34:35 by jleslee           #+#    #+#             */
-/*   Updated: 2021/11/21 17:35:47 by jleslee          ###   ########.fr       */
+/*   Created: 2021/11/18 18:22:55 by jleslee           #+#    #+#             */
+/*   Updated: 2021/11/22 16:04:30 by jleslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putpnt(unsigned long long int num)
+int	ft_putuns(unsigned int n, int *res)
 {
-	int	i;
-
-	i = 2;
-	write(1, "0x", 2);
-	i += ft_puthex(num);
-	return (i);
+	if (n > 9)
+	{
+		ft_putuns(n / 10, res);
+		ft_putuns(n % 10, res);
+	}
+	else
+		ft_putchar(n + 48, res);
+	return (*res);
 }

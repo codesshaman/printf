@@ -6,31 +6,32 @@
 /*   By: jleslee <jleslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:43:41 by jleslee           #+#    #+#             */
-/*   Updated: 2021/11/21 17:46:37 by jleslee          ###   ########.fr       */
+/*   Updated: 2021/11/22 16:03:42 by jleslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+//#include <stdio.h>
 
-int	print_choose(const char *s, va_list ap)
+int	print_choose(const char *s, va_list ap, int *res)
 {
-	if (*s == '%')
-		g_conter += write (1, "%", 1);
-	else if (*s == 'c')
-		g_conter += ft_putchar(va_arg(ap, int));
+	if (*s == 'c')
+		ft_putchar(va_arg(ap, int), res);
 	else if (*s == 's')
-		g_conter += ft_putstr(va_arg(ap, char *));
+		ft_putstr(va_arg(ap, char *), res);
 	else if (*s == 'd' || *s == 'i')
-		g_conter += ft_putdec(va_arg(ap, int));
+		ft_putdec(va_arg(ap, int), res);
 	else if (*s == 'u')
-		g_conter += ft_putuns(va_arg(ap, unsigned int));
+		ft_putuns(va_arg(ap, unsigned int), res);
 	else if (*s == 'x')
-		g_conter += ft_puthex((unsigned int)va_arg(ap, unsigned long long int));
+		ft_puthex((unsigned int)va_arg(ap, unsigned long long int), res);
 	else if (*s == 'X')
-		g_conter += ft_puthup((unsigned int)va_arg(ap, unsigned long long int));
+		ft_puthup((unsigned int)va_arg(ap, unsigned long long int), res);
 	else if (*s == 'p')
-		g_conter += ft_putpnt(va_arg(ap, long long));
-	return (g_conter);
+		ft_putpnt(va_arg(ap, unsigned long long int), res);
+	else if (*s == '%')
+		ft_putchar('%', res);
+	return (*res);
 }
 
 int	ft_printf(const char *str, ...)
@@ -38,42 +39,45 @@ int	ft_printf(const char *str, ...)
 	va_list	ap;
 	int		res;
 
-	g_conter = 0;
 	res = 0;
-	if (!str)
-		return (0);
 	va_start(ap, str);
 	while (*str)
 	{
 		if (*str == '%')
-			res += print_choose(++str, ap);
+			res = print_choose(++str, ap, &res);
 		else
-			res += write(1, &str, 1);
+			ft_putchar(*str, &res);
 		str++;
 	}
 	va_end(ap);
 	return (res);
 }
 
-int	main(int argc, char **argv)
-{
-	if (argc >= 1)
-	{
-		ft_printf("%c", 'D');
-		ft_printf("%c", '\n');
-		ft_printf("%s", "Hello");
-		ft_printf("%c", '\n');
-		ft_printf("%d", -651651);
-		ft_printf("%c", '\n');
-		ft_printf("%u", 1);
-		ft_printf("%c", '\n');
-		ft_printf("%x", 66);
-		ft_printf("%c", '\n');
-		ft_printf("%X", 33);
-		ft_printf("%c", '\n');
-		ft_printf("%p", 33);
-		ft_printf("%c", '\n');
-		ft_printf("%p, %s", 33, " коровы", );
-	}
-	return (0);
-}
+// int	main(int argc, char **argv)
+// {
+// 	char r;
+
+// 	r = 'y';
+// 	if (argc >= 1)
+// 	{
+// 		printf("%d\n", printf("%c", 'C'));
+// 		ft_printf("%d\n", ft_printf("%c", 'C'));
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%s\n", "Hello");
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%d\n", -651651);
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%u", 1);
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%x", 66);
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%X", 33);
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%p", 33);
+// 		ft_printf("%c", '\n');
+// 		ft_printf("%p, %s\n", 33, "коровы");
+// 	}
+// 	printf("%d\n", printf("%c", r));
+// 	ft_printf("%d\n", ft_printf("%c", r));
+// 	return (0);
+// }
